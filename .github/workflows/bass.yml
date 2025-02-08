@@ -22,7 +22,9 @@ jobs:
         with:
           dotnet-version: 9.0.x
           source-url: https://nuget.pkg.github.com/dmirmilshteyn/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ github.token }}
       - name: Pack
         run: nuget pack -OutputDirectory ${{ github.workspace }}/bin ./bass.nuspec
       - name: Publish packages
-        run: dotnet nuget push ${{ github.workspace }}/bin/*.nupkg --skip-duplicate --api-key ${{ github.token }} --source https://nuget.pkg.github.com/dmirmilshteyn/
+        run: dotnet nuget push ${{ github.workspace }}/bin/*.nupkg --skip-duplicate --source https://nuget.pkg.github.com/dmirmilshteyn/
