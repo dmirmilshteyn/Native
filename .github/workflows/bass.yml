@@ -9,7 +9,7 @@ on:
 jobs:
   publish:
     name: Publish nuget package
-    runs-on: ubuntu-24.04 # Bug with nuget action forces use of this version
+    runs-on: ubuntu-22.04 # Bug with nuget action forces use of this version
 
     defaults:
       run:
