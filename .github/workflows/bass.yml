@@ -20,9 +20,7 @@ jobs:
       - uses: nuget/setup-nuget@v2
         with:
           nuget-version: 'latest'
-          nuget-api-key: ${{ github.token }}
-          nuget-api-key-source: https://nuget.pkg.github.com/dmirmilshteyn/index.json
       - name: Pack
         run: nuget pack -OutputDirectory ${{ github.workspace }}/bin ./bass.nuspec
       - name: Publish
-        run: nuget push ${{ github.workspace }}/bin/*.nupkg -src https://nuget.pkg.github.com/dmirmilshteyn/index.json
+        run: nuget push ${{ github.workspace }}/bin/*.nupkg -ApiKey ${{ github.token }} -src https://nuget.pkg.github.com/dmirmilshteyn/index.json
