@@ -17,14 +17,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+      - uses: nuget/setup-nuget@v2
         with:
-          dotnet-version: 9.0.x
-          source-url: https://nuget.pkg.github.com/dmirmilshteyn/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{ github.token }}
+          nuget-version: 'latest'
+          nuget-api-key: ${{ github.token }}
+          nuget-api-key-source: https://nuget.pkg.github.com/dmirmilshteyn/index.json
       - name: Pack
         run: nuget pack -OutputDirectory ${{ github.workspace }}/bin ./bass.nuspec
-      - name: Publish packages
-        run: dotnet nuget push ${{ github.workspace }}/bin/*.nupkg --skip-duplicate --source https://nuget.pkg.github.com/dmirmilshteyn/
+      - name: Publish
+        run: nuget push ${{ github.workspace }}/bin/*.nupkg -src https://nuget.pkg.github.com/dmirmilshteyn/index.json
