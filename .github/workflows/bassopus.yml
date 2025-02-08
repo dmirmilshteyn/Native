@@ -1,0 +1,26 @@
+name: Bass
+
+on:
+  push:
+    paths:
+      - 'bassopus/**'
+      - '.github/workflows/bassopus.yml'
+
+jobs:
+  publish:
+    name: Publish nuget package
+    runs-on: ubuntu-22.04 # Bug with nuget action forces use of this version
+
+    defaults:
+      run:
+        working-directory: bassopus
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nuget/setup-nuget@v2
+        with:
+          nuget-version: 'latest'
+      - name: Pack
+        run: nuget pack -OutputDirectory ${{ github.workspace }}/bin ./bassopus.nuspec
+      - name: Publish
+        run: nuget push ${{ github.workspace }}/bin/*.nupkg -ApiKey ${{ secrets.CI_PACKAGES_PAT }} -Source https://nuget.pkg.github.com/dmirmilshteyn/index.json -NonInteractive
