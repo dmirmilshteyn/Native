@@ -1,10 +1,10 @@
-name: bass
+name: basswebm
 
 on:
   push:
     paths:
-      - 'bass/**'
-      - '.github/workflows/bass.yml'
+      - 'basswebm/**'
+      - '.github/workflows/basswebm.yml'
 
 jobs:
   publish:
@@ -13,7 +13,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: bass
+        working-directory: basswebm
 
     steps:
       - uses: actions/checkout@v2
@@ -21,6 +21,6 @@ jobs:
         with:
           nuget-version: 'latest'
       - name: Pack
-        run: nuget pack -OutputDirectory ${{ github.workspace }}/bin ./bass.nuspec
+        run: nuget pack -OutputDirectory ${{ github.workspace }}/bin ./basswebm.nuspec
       - name: Publish
         run: nuget push ${{ github.workspace }}/bin/*.nupkg -ApiKey ${{ secrets.CI_PACKAGES_PAT }} -Source https://api.nuget.org/v3/index.json -NonInteractive

@@ -7,7 +7,7 @@
         <owners>dmirmilshteyn</owners>
         <projectUrl>https://github.com/dmirmilshteyn/Native</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Native libraries for Bass</description>
+        <description>Native libraries for bass</description>
         <repository type="git" url="https://github.com/dmirmilshteyn/Native"/>
     </metadata>
 
