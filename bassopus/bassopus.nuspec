@@ -17,5 +17,9 @@
         <file src="runtimes/osx-x64/libbassopus.dylib" target="runtimes/osx-x64/native"/>
         <file src="runtimes/osx-arm64/libbassopus.dylib" target="runtimes/osx-arm64/native"/>
         <file src="runtimes/linux-x64/libbassopus.so" target="runtimes/linux-x64/native"/>
+
+        <file src="xcframeworks/bassopus.xcframework/**" target="xcframeworks/bassopus.xcframework"/>
+        <file src="build/libbassopus.targets" target="build/libbassopus.targets"/>
+        <file src="buildTransitive/libbassopus.targets" target="buildTransitive/libbassopus.targets"/>
     </files>
 </package>

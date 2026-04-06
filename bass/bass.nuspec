@@ -17,5 +17,9 @@
         <file src="runtimes/osx-x64/libbass.dylib" target="runtimes/osx-x64/native"/>
         <file src="runtimes/osx-arm64/libbass.dylib" target="runtimes/osx-arm64/native"/>
         <file src="runtimes/linux-x64/libbass.so" target="runtimes/linux-x64/native"/>
+
+        <file src="xcframeworks/bass.xcframework/**" target="xcframeworks/bass.xcframework"/>
+        <file src="build/libbass.targets" target="build/libbass.targets"/>
+        <file src="buildTransitive/libbass.targets" target="buildTransitive/libbass.targets"/>
     </files>
 </package>

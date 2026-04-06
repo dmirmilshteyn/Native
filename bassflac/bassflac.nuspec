@@ -17,5 +17,9 @@
         <file src="runtimes/osx-x64/libbassflac.dylib" target="runtimes/osx-x64/native"/>
         <file src="runtimes/osx-arm64/libbassflac.dylib" target="runtimes/osx-arm64/native"/>
         <file src="runtimes/linux-x64/libbassflac.so" target="runtimes/linux-x64/native"/>
+
+        <file src="xcframeworks/bassflac.xcframework/**" target="xcframeworks/bassflac.xcframework"/>
+        <file src="build/libbassflac.targets" target="build/libbassflac.targets"/>
+        <file src="buildTransitive/libbassflac.targets" target="buildTransitive/libbassflac.targets"/>
     </files>
 </package>

@@ -1,0 +1,8 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ItemGroup Condition="$(TargetFramework.Contains('ios')) or $(TargetFramework.Contains('maccatalyst'))">
+        <NativeReference Include="$(MSBuildThisFileDirectory)..\xcframeworks\bass.xcframework">
+            <Kind>Framework</Kind>
+            <SmartLink>True</SmartLink>
+        </NativeReference>
+    </ItemGroup>
+</Project>

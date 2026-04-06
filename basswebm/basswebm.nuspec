@@ -17,5 +17,9 @@
         <file src="runtimes/osx-x64/libbasswebm.dylib" target="runtimes/osx-x64/native"/>
         <file src="runtimes/osx-arm64/libbasswebm.dylib" target="runtimes/osx-arm64/native"/>
         <file src="runtimes/linux-x64/libbasswebm.so" target="runtimes/linux-x64/native"/>
+
+        <file src="xcframeworks/basswebm.xcframework/**" target="xcframeworks/basswebm.xcframework"/>
+        <file src="build/libbasswebm.targets" target="build/libbasswebm.targets"/>
+        <file src="buildTransitive/libbasswebm.targets" target="buildTransitive/libbasswebm.targets"/>
     </files>
 </package>
