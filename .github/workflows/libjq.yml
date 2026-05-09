@@ -112,6 +112,10 @@ jobs:
           ./configure --disable-docs --with-oniguruma=no
           make
 
+      - name: List Windows build outputs
+        shell: msys2 {0}
+        run: ls -la .libs
+
       - name: Upload package files
         uses: actions/upload-artifact@v4
         with:
