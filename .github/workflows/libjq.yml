@@ -17,7 +17,7 @@ jobs:
         shell: bash
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -33,7 +33,7 @@ jobs:
           make
 
       - name: Upload package files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: runtimes-linux-x64
           path: libjq/lib/.libs/libjq.so
@@ -49,7 +49,7 @@ jobs:
         shell: bash
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -68,7 +68,7 @@ jobs:
         run: install_name_tool -id @rpath/libjq.dylib .libs/libjq.1.dylib
 
       - name: Upload package files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: runtimes-osx-arm64
           path: libjq/lib/.libs/libjq.1.dylib
@@ -83,7 +83,7 @@ jobs:
         working-directory: libjq/lib
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -113,7 +113,7 @@ jobs:
           make
 
       - name: Upload package files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: runtimes-win-x64
           path: libjq/lib/.libs/libjq-1.dll
@@ -132,22 +132,22 @@ jobs:
         working-directory: libjq
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download linux runtime
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: runtimes-linux-x64
           path: libjq/runtimes/linux-x64
 
       - name: Download macOS runtime
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: runtimes-osx-arm64
           path: libjq/runtimes/osx-arm64
 
       - name: Download Windows runtime
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: runtimes-win-x64
           path: libjq/runtimes/win-x64
@@ -161,7 +161,7 @@ jobs:
         run: dotnet pack ./libjq.nuspec --output ${{ github.workspace }}/libjq/.packed
 
       - name: Upload package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: libjq-package
           path: libjq/.packed/*.nupkg
