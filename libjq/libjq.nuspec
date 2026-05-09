@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>dmirmilshteyn.libjq</id>
+        <version>1.8.1</version>
+        <authors>dmirmilshteyn</authors>
+        <owners>dmirmilshteyn</owners>
+        <projectUrl>https://github.com/dmirmilshteyn/Native</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Native libraries for jq</description>
+        <repository type="git" url="https://github.com/dmirmilshteyn/Native"/>
+    </metadata>
+
+    <files>
+        <file src="runtimes/win-x64/libjq.dll" target="runtimes/win-x64/native"/>
+        <file src="runtimes/osx-arm64/libjq.dylib" target="runtimes/osx-arm64/native"/>
+        <file src="runtimes/linux-x64/libjq.so" target="runtimes/linux-x64/native"/>
+    </files>
+</package>

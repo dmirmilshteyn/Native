@@ -1,0 +1,168 @@
+name: libjq
+
+on:
+  push:
+    paths:
+      - 'libjq/**'
+      - '.github/workflows/libjq.yml'
+
+jobs:
+  linux:
+    name: Build [linux-x64]
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: libjq/lib
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake libtool
+
+      - name: Build
+        run: |
+          autoreconf -i
+          ./configure --disable-docs --with-oniguruma=no
+          make
+
+      - name: Upload package files
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtimes-linux-x64
+          path: libjq/lib/.libs/libjq.so
+          if-no-files-found: error
+
+  macos:
+    name: Build [macos-arm64]
+    runs-on: macos-14
+
+    defaults:
+      run:
+        working-directory: libjq/lib
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          brew update || brew update-reset
+          brew install autoconf automake libtool
+
+      - name: Build
+        run: |
+          autoreconf -i
+          ./configure --disable-docs --with-oniguruma=no
+          make
+
+      - name: Normalize dylib id
+        run: install_name_tool -id @rpath/libjq.dylib .libs/libjq.1.dylib
+
+      - name: Upload package files
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtimes-osx-arm64
+          path: libjq/lib/.libs/libjq.1.dylib
+          if-no-files-found: error
+
+  windows:
+    name: Build [windows-x64]
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        working-directory: libjq/lib
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prepare git config
+        shell: bash
+        run: git config --system core.autocrlf false
+
+      - name: Prepare MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          msystem: UCRT64
+          install: >-
+            base-devel
+            git
+            autoconf
+            automake
+            libtool
+          pacboy: >-
+            toolchain:p
+
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          autoreconf -i
+          ./configure --disable-docs --with-oniguruma=no
+          make
+
+      - name: Upload package files
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtimes-win-x64
+          path: libjq/lib/.libs/libjq-*.dll
+          if-no-files-found: error
+
+  package:
+    name: Package
+    runs-on: ubuntu-22.04
+    needs:
+      - linux
+      - macos
+      - windows
+
+    defaults:
+      run:
+        working-directory: libjq
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download linux runtime
+        uses: actions/download-artifact@v4
+        with:
+          name: runtimes-linux-x64
+          path: libjq/runtimes/linux-x64
+
+      - name: Download macOS runtime
+        uses: actions/download-artifact@v4
+        with:
+          name: runtimes-osx-arm64
+          path: libjq/runtimes/osx-arm64
+
+      - name: Download Windows runtime
+        uses: actions/download-artifact@v4
+        with:
+          name: runtimes-win-x64
+          path: libjq/runtimes/win-x64
+
+      - name: Normalize runtime layout
+        run: |
+          mv ./runtimes/osx-arm64/libjq.1.dylib ./runtimes/osx-arm64/libjq.dylib
+          mv ./runtimes/win-x64/libjq-*.dll ./runtimes/win-x64/libjq.dll
+
+      - name: Pack
+        run: dotnet pack ./libjq.nuspec --output ${{ github.workspace }}/libjq/.packed
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: libjq-package
+          path: libjq/.packed/*.nupkg
+          if-no-files-found: error

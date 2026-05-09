@@ -1,3 +1,6 @@
 [submodule "libraw/lib"]
 	path = libraw/lib
 	url = git@github.com:LibRaw/LibRaw.git
+[submodule "libjq/lib"]
+	path = libjq/lib
+	url = https://github.com/jqlang/jq.git
