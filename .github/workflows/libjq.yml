@@ -164,5 +164,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: libjq-package
-          path: libjq/.packed/*.nupkg
+          path: ${{ github.workspace }}/libjq/.packed/*.nupkg
           if-no-files-found: error
