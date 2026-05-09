@@ -160,12 +160,5 @@ jobs:
       - name: Pack
         run: dotnet pack ./libjq.nuspec --output ${{ github.workspace }}/libjq/.packed
 
-      - name: Prepare package artifact
-        run: cp ${{ github.workspace }}/libjq/.packed/*.nupkg ${{ github.workspace }}/libjq/.packed/package.nupkg
-
-      - name: Upload package
-        uses: actions/upload-artifact@v7
-        with:
-          name: libjq-package
-          path: ${{ github.workspace }}/libjq/.packed/package.nupkg
-          if-no-files-found: error
+      - name: Publish
+        run: dotnet nuget push ${{ github.workspace }}/libjq/.packed/*.nupkg --api-key ${{ secrets.CI_PACKAGES_PAT }} --source https://api.nuget.org/v3/index.json --skip-duplicate
