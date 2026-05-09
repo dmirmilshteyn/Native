@@ -39,6 +39,38 @@ jobs:
           path: libjq/lib/.libs/libjq.so
           if-no-files-found: error
 
+  linux-arm64:
+    name: Build [linux-arm64]
+    runs-on: ubuntu-24.04-arm
+
+    defaults:
+      run:
+        working-directory: libjq/lib
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake libtool
+
+      - name: Build
+        run: |
+          autoreconf -i
+          ./configure --disable-docs --with-oniguruma=no
+          make
+
+      - name: Upload package files
+        uses: actions/upload-artifact@v7
+        with:
+          name: runtimes-linux-arm64
+          path: libjq/lib/.libs/libjq.so
+          if-no-files-found: error
+
   macos:
     name: Build [macos-arm64]
     runs-on: macos-14
@@ -124,6 +156,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs:
       - linux
+      - linux-arm64
       - macos
       - windows
 
@@ -145,6 +178,12 @@ jobs:
         with:
           name: runtimes-osx-arm64
           path: libjq/runtimes/osx-arm64
+
+      - name: Download linux arm64 runtime
+        uses: actions/download-artifact@v8
+        with:
+          name: runtimes-linux-arm64
+          path: libjq/runtimes/linux-arm64
 
       - name: Download Windows runtime
         uses: actions/download-artifact@v8
